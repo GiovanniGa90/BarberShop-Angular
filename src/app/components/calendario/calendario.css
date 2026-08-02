@@ -1,0 +1,202 @@
+.calendar-grid {
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+  width:100%;
+}
+
+
+.giorno {
+
+  width:34px;
+  height:34px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:0.85rem;
+  cursor:pointer;
+}
+
+
+.settimana,
+.giorni {
+
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+  text-align:center;
+
+}
+
+
+.settimana {
+
+  color:#c5a880;
+  margin-bottom:8px;
+  font-size:0.8rem;
+
+}
+
+
+.navigazione-mese {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 14px;
+}
+
+.pulsante-mese {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #c5a880;
+  background: transparent;
+  border: 1px solid #c5a880;
+  border-radius: 6px;
+
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    color 0.2s,
+    opacity 0.2s;
+}
+
+.pulsante-mese:hover:not(:disabled) {
+  color: #111;
+  background: #c5a880;
+}
+
+.pulsante-mese:disabled {
+  color: #555;
+  border-color: #444;
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.titolo-mese {
+  margin: 0;
+  text-align: center;
+  color: #c5a880;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+
+.chiuso {
+
+  color:#555;
+  background:#222;
+}
+
+
+.passato {
+
+  background:#1a1a1a;
+  color:#444;
+  opacity:0.4;
+
+}
+
+
+.giorno.selezionato {
+
+  background:#c5a880;
+  color:#111;
+  font-weight:bold;
+
+}
+.contenitore-orari {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #c9a97b;
+}
+
+.contenitore-orari h3 {
+  margin-bottom: 24px;
+  color: #c9a97b;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.griglia-orari {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.orario {
+  padding: 13px 8px;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid #c9a97b;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.orario:hover {
+  color: #111111;
+  background: #c9a97b;
+}
+
+.orario.selezionato {
+  color: #111111;
+  background: #c9a97b;
+  border-color: #c9a97b;
+}
+
+.giorno.vuoto {
+  pointer-events: none;
+  background: transparent;
+}
+.giorno.chiuso,
+.giorno.passato,
+.giorno.non-disponibile {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.giorno.chiuso {
+  color: #555;
+  background: #222;
+  opacity: 0.5;
+}
+
+.giorno.passato {
+  background: #1a1a1a;
+  color: #444;
+  opacity: 0.4;
+}
+
+@media (max-width: 600px) {
+  .griglia-orari {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .navigazione-mese {
+  grid-template-columns: 38px 1fr 38px;
+  gap: 6px;
+}
+
+.pulsante-mese {
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+}
+
+.titolo-mese {
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+}

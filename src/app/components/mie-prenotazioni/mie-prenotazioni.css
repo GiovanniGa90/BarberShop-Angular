@@ -1,0 +1,236 @@
+:host {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.pagina-prenotazioni {
+  min-height: 100vh;
+  padding: 60px 20px;
+  color: #ffffff;
+  background: #111111;
+  font-family: 'Inter', sans-serif;
+}
+
+.intestazione {
+  max-width: 900px;
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #888888;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 3px;
+}
+
+.intestazione h1 {
+  margin: 10px 0 15px;
+  color: #c5a880;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  letter-spacing: 5px;
+}
+
+.sottotitolo {
+  max-width: 620px;
+  margin: 0 auto 30px;
+  color: #a3a3a3;
+  line-height: 1.7;
+}
+
+.btn-indietro,
+.btn-principale,
+.btn-elimina {
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+
+.btn-indietro {
+  padding: 14px 30px;
+  color: #c5a880;
+  background: transparent;
+  border: 1px solid #c5a880;
+}
+
+.btn-indietro:hover,
+.btn-principale:hover,
+.btn-elimina:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.stato-vuoto {
+  max-width: 700px;
+  margin: 80px auto 0;
+  padding: 60px 30px;
+  text-align: center;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+}
+
+.icona-vuoto {
+  margin-bottom: 20px;
+  color: #c5a880;
+  font-size: 3rem;
+}
+
+.stato-vuoto h2 {
+  margin: 0 0 15px;
+  color: #c5a880;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.stato-vuoto p {
+  margin-bottom: 30px;
+  color: #a3a3a3;
+}
+
+.btn-principale {
+  padding: 14px 24px;
+  color: #111111;
+  background: #c5a880;
+  border: 1px solid #c5a880;
+}
+
+.lista-prenotazioni {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card-prenotazione {
+  padding: 32px;
+  background: #1a1a1a;
+  border: 1px solid #c5a880;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #333333;
+}
+
+.etichetta-servizio {
+  display: block;
+  margin-bottom: 8px;
+  color: #888888;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+}
+
+.card-header h2 {
+  margin: 0;
+  color: #c5a880;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.badge-stato {
+  padding: 8px 12px;
+  border: 1px solid currentColor;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.stato-prenotato {
+  color: #fb923c;
+}
+
+.stato-confermato {
+  color: #c5a880;
+}
+
+.stato-arrivato {
+  color: #38bdf8;
+}
+
+.stato-completato {
+  color: #22c55e;
+}
+
+.stato-annullato {
+  color: #ef4444;
+}
+
+.dettagli {
+  padding: 26px 0;
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.dettaglio {
+  padding: 16px;
+  background: #141414;
+  border: 1px solid #292929;
+}
+
+.dettaglio span {
+  display: block;
+  margin-bottom: 7px;
+  color: #888888;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dettaglio strong {
+  color: #ffffff;
+}
+
+.azioni {
+  padding-top: 4px;
+}
+
+.btn-elimina {
+  width: 100%;
+  padding: 15px;
+  color: #ffffff;
+  background: #7f1d1d;
+  border: 1px solid #991b1b;
+}
+
+.btn-elimina:disabled {
+  color: #777777;
+  background: #292929;
+  border-color: #333333;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .pagina-prenotazioni {
+    padding: 40px 15px;
+  }
+
+  .card-prenotazione {
+    padding: 24px 18px;
+  }
+
+  .card-header {
+    flex-direction: column;
+  }
+
+  .dettagli {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,80 @@
+<div class="login-overlay">
+
+  <div class="login-box">
+
+    <!-- LOGO -->
+    <div class="logo-box">
+      <p class="logo-bianco">BARBER</p>
+      <p class="logo-oro">SHOP</p>
+    </div>
+
+
+    <h2>
+      Accesso Gestionale
+    </h2>
+
+
+    <div class="form-container">
+
+
+      <!-- EMAIL -->
+      <div>
+
+        <label>
+          Indirizzo Email
+        </label>
+
+        <input
+          type="email"
+          [(ngModel)]="usernameInput"
+          placeholder="Es. giovanni@mail.com">
+
+      </div>
+
+
+
+      <!-- PASSWORD -->
+      <div>
+
+        <label>
+          Password
+        </label>
+
+        <input
+          type="password"
+          [(ngModel)]="passwordInput"
+          placeholder="••••••••">
+
+      </div>
+
+
+
+
+      <!-- LOGIN -->
+      <button
+        class="btn-login"
+        (click)="effettuaLogin()">
+
+        ENTRA NEL SALONE
+
+      </button>
+
+
+
+      <!-- REGISTRAZIONE -->
+      <button
+        class="btn-register"
+        (click)="vaiRegistrazione.emit()">
+
+        Non hai un account? Registrati
+
+      </button>
+
+
+
+    </div>
+
+
+  </div>
+
+</div>

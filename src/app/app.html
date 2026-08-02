@@ -1,0 +1,168 @@
+<!-- SCHERMATA DI LOGIN A TUTTO SCHERMO STILE POSTER DI LUSSO -->
+
+<!--<div *ngIf="paginaAttuale === 'login'"
+  style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('assets/sfondo.jpg'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; z-index: 99999;">
+
+
+  <div
+    style="background-color: #111111; border: 1px solid #c5a880; padding: 50px 40px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6); box-sizing: border-box;">
+
+
+    <div
+      style="text-align: center; border: 2px solid #ffffff; padding: 10px 20px; border-radius: 0px; background-color: rgba(0,0,0,0.5); display: inline-block; margin-bottom: 30px;">
+      <p
+        style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 1.3rem; letter-spacing: 4px; font-weight: bold; color: #ffffff;">
+        BARBER</p>
+      <p
+        style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 1.3rem; letter-spacing: 4px; font-weight: bold; color: #c5a880;">
+        SHOP</p>
+    </div>
+
+    <h2
+      style="font-family: 'Oswald', sans-serif; color: #ffffff; margin-top: 0; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; font-size: 1.4rem;">
+      Accesso Gestionale
+    </h2>
+
+
+    <div style="display: flex; flex-direction: column; gap: 20px; width: 100%; text-align: left;">
+
+      <div>
+        <label
+          style="color: #c5a880; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; font-weight: bold;">Indirizzo
+          Email</label>
+        <input type="email" [(ngModel)]="usernameInput" placeholder="Es. giovanni@mail.com"
+          style="width: 100%; padding: 14px; background-color: #ffffff; border: 1px solid #111111; color: #000000; font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 1rem; border-radius: 0px;">
+      </div>
+
+      <div>
+        <label
+          style="color: #c5a880; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; font-weight: bold;">Password</label>
+        <input type="password" [(ngModel)]="passwordInput" placeholder="••••••••"
+          style="width: 100%; padding: 14px; background-color: #ffffff; border: 1px solid #111111; color: #000000; font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 1rem; border-radius: 0px;">
+      </div>
+
+
+      <button (click)="effettuaLogin()"
+        style="width: 100%; background-color: #c5a880; color: #111111; border: 1px solid #c5a880; padding: 15px; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; cursor: pointer; font-size: 0.95rem; border-radius: 0px; margin-top: 10px; transition: all 0.3s;">
+        ENTRA NEL SALONE
+      </button>
+
+
+      <button (click)=" registrazioneAttiva = true; paginaAttuale = 'registrazione'"
+        style="width: 100%; background: transparent; color: #c5a880; border: 1px solid #c5a880; padding: 12px; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-size: 0.85rem; border-radius: 0px; font-weight: 700; margin-top: 5px;">
+        Non hai un account? Registrati
+      </button>
+
+
+    </div>
+
+  </div>
+</div> -->
+
+<app-login *ngIf="paginaAttuale === 'login'" (loginEffettuato)="effettuaLoginDaFiglio($event)"
+  (vaiRegistrazione)="paginaAttuale='registrazione'; registrazioneAttiva=true">
+</app-login>
+
+<div *ngIf="registrazioneAttiva === true"
+  style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('assets/sfondo.jpg'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; z-index: 99999;">
+
+  <div
+    style="background-color: #111111; border: 1px solid #c5a880; padding: 45px 40px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6); box-sizing: border-box;">
+
+    <!-- Intestazione Minimal -->
+    <h2
+      style="font-family: 'Oswald', sans-serif; color: #ffffff; margin-top: 0; margin-bottom: 5px; letter-spacing: 2px; text-transform: uppercase; font-size: 1.5rem; font-weight: 700;">
+      CREA ACCOUNT
+    </h2>
+    <p
+      style="color: #c5a880; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin-top: 0; margin-bottom: 25px; letter-spacing: 1px;">
+      Registrati per prenotare i tuoi trattamenti
+    </p>
+
+
+    <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; text-align: left;">
+
+      <div>
+        <label
+          style="color: #c5a880; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; font-weight: bold;">Nome
+          e Cognome</label>
+        <input type="text" [(ngModel)]="nomeCliente" placeholder="Es. David Rossi"
+          style="width: 100%; padding: 12px; background-color: #ffffff; border: 1px solid #111111; color: #000000; font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 0.95rem; border-radius: 0px;">
+      </div>
+
+      <div>
+        <label
+          style="color: #c5a880; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; font-weight: bold;">Indirizzo
+          Email</label>
+        <input type="email" [(ngModel)]="nuovaEmail" placeholder="Es. david@mail.com"
+          style="width: 100%; padding: 12px; background-color: #ffffff; border: 1px solid #111111; color: #000000; font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 0.95rem; border-radius: 0px;">
+      </div>
+
+      <div>
+        <label
+          style="color: #c5a880; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; font-weight: bold;">Crea
+          Password</label>
+        <input type="password" [(ngModel)]="nuovaPassword" placeholder="••••••••"
+          style="width: 100%; padding: 12px; background-color: #ffffff; border: 1px solid #111111; color: #000000; font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 0.95rem; border-radius: 0px;">
+      </div>
+
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+        <button (click)="registraNuovoUtente()"
+          style="width: 100%; background-color: #c5a880; color: #111111; border: 1px solid #c5a880; padding: 14px; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; cursor: pointer; font-size: 0.95rem; border-radius: 0px;">
+          REGISTRATI ORA 📝
+        </button>
+
+        <button (click)="registrazioneAttiva = false; paginaAttuale = 'login'"
+          style="width: 100%; background: transparent; color: #ffffff; border: 1px solid #333333; padding: 11px; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-size: 0.8rem; border-radius: 0px;">
+          Hai già un conto? Accedi 🔑
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- GRANDE COPERTINA A TUTTO SCHERMO (HERO SECTION STYLE MEN'S CLUB) -->
+<app-area-cliente
+  *ngIf="paginaAttuale === 'cliente'"
+  [utenteLoggato]="utenteLoggato"
+  [nomeCliente]="nomeCliente"
+  [listaPrenotazioni]="listaPrenotazioni"
+  [listaServizi]="listaServizi"
+  [orariDisponibili]="orariDisponibili"
+  [dataMinima]="dataMinima"
+  (listaPrenotazioniChange)="aggiornaPrenotazioni($event)"
+  (vaiPrenotazioni)="vaiAllePrenotazioni()"
+  (logout)="effettuaLogout()"
+>
+</app-area-cliente>
+
+
+<!-- PAGINA PRENOTAZIONI CLIENTE -->
+<app-mie-prenotazioni
+  *ngIf="paginaAttuale === 'prenotazioni'"
+  [prenotazioni]="miePrenotazioni"
+  (tornaAlSalone)="tornaCliente()"
+  (eliminaPrenotazione)="
+    eliminaPrenotazione($event)
+  "
+>
+</app-mie-prenotazioni>
+
+<!-- AREA TITOLARE -->
+
+<app-dashboard-titolare
+  *ngIf="paginaAttuale === 'titolare'"
+  [listaPrenotazioni]="listaPrenotazioni"
+  [listaServizi]="listaServizi"
+  [orariDisponibili]="orariDisponibili"
+  [dataMinima]="dataMinima"
+  (listaPrenotazioniChange)="aggiornaPrenotazioni($event)"
+  (logout)="effettuaLogout()"
+>
+</app-dashboard-titolare>
+

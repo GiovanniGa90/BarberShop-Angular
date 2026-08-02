@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+/* 1. Importiamo da Google Fonts il font Oswald: compatto, bold e perfetto per i titoli Vintage */
+@import url('https://googleapis.com');
+
+/* 2. Coloriamo lo sfondo di tutto il sito e impostiamo il font di base */
+body {
+  background-color: #121212; /* Nero fumo di classe */
+  color: #ffffff;            /* Testo bianco per staccare */
+  margin: 0;
+  font-family: 'Inter', sans-serif; /* Font pulito per i testi normali */
+}
+
+/* 3. Creiamo una regola speciale per i titoli del negozio */
+h1, h2, h3, .titolo-vintage {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase; /* Tutto in maiuscolo automatico! */
+  letter-spacing: 2px;       /* Lettere leggermente spaziate stile rivista */
+}

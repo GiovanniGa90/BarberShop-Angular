@@ -1,0 +1,174 @@
+<section class="pagina-prenotazioni">
+
+  <header class="intestazione">
+
+    <p class="eyebrow">
+      AREA CLIENTE
+    </p>
+
+    <h1>
+      LE MIE PRENOTAZIONI
+    </h1>
+
+    <p class="sottotitolo">
+      Controlla i tuoi prossimi appuntamenti
+      e lo stato delle prenotazioni.
+    </p>
+
+    <button
+      type="button"
+      class="btn-indietro"
+      (click)="tornaCliente()"
+    >
+      ← TORNA AL SALONE
+    </button>
+
+  </header>
+
+  <div
+    *ngIf="prenotazioni.length === 0"
+    class="stato-vuoto"
+  >
+    <div class="icona-vuoto">
+      ✂️
+    </div>
+
+    <h2>
+      Nessuna prenotazione
+    </h2>
+
+    <p>
+      Non hai ancora effettuato prenotazioni.
+    </p>
+
+    <button
+      type="button"
+      class="btn-principale"
+      (click)="tornaCliente()"
+    >
+      PRENOTA UN SERVIZIO
+    </button>
+  </div>
+
+  <div
+    *ngIf="prenotazioni.length > 0"
+    class="lista-prenotazioni"
+  >
+
+    <article
+      *ngFor="let prenotazione of prenotazioni"
+      class="card-prenotazione"
+    >
+
+      <div class="card-header">
+
+        <div>
+          <span class="etichetta-servizio">
+            SERVIZIO
+          </span>
+
+          <h2>
+            {{
+              prenotazione
+                .servizioCompleto
+                ?.nome || 'Servizio non indicato'
+            }}
+          </h2>
+        </div>
+
+        <span
+          class="badge-stato"
+          [ngClass]="classeStato(prenotazione)"
+        >
+          {{ prenotazione.stato }}
+        </span>
+
+      </div>
+
+      <div class="dettagli">
+
+        <div class="dettaglio">
+          <span>
+            📅 Giorno
+          </span>
+
+          <strong>
+            {{
+              prenotazione.giorno
+                | date:'dd/MM/yyyy'
+            }}
+          </strong>
+        </div>
+
+        <div class="dettaglio">
+          <span>
+            ⏰ Ora
+          </span>
+
+          <strong>
+            {{ prenotazione.ora }}
+          </strong>
+        </div>
+
+        <div class="dettaglio">
+          <span>
+            💈 Durata
+          </span>
+
+          <strong>
+            {{
+              prenotazione
+                .servizioCompleto
+                ?.durata || 'Non indicata'
+            }}
+          </strong>
+        </div>
+
+        <div class="dettaglio">
+          <span>
+            💶 Prezzo
+          </span>
+
+          <strong>
+            €
+            {{
+              prenotazione
+                .servizioCompleto
+                ?.prezzo ?? 0
+            }}
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="azioni">
+
+        <button
+          type="button"
+          class="btn-elimina"
+          [disabled]="
+            prenotazione.stato === 'annullato' ||
+            prenotazione.stato === 'completato'
+          "
+          (click)="
+            richiediEliminazione(
+              prenotazione
+            )
+          "
+        >
+          {{
+            prenotazione.stato === 'annullato'
+              ? 'PRENOTAZIONE ANNULLATA'
+              : prenotazione.stato === 'completato'
+                ? 'SERVIZIO COMPLETATO'
+                : 'ANNULLA PRENOTAZIONE'
+          }}
+        </button>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>

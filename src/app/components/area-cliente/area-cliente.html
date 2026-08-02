@@ -1,0 +1,449 @@
+<section class="area-cliente">
+
+  <!-- BARRA SUPERIORE -->
+
+  <div class="barra-utente">
+
+    <span class="benvenuto">
+      Benvenuto, {{ nomeCliente }}
+    </span>
+
+    <div class="azioni-utente">
+
+      <button type="button" class="btn-secondario" (click)="apriLeMiePrenotazioni()">
+        📅 Le mie prenotazioni
+      </button>
+
+      <button type="button" class="btn-secondario" (click)="effettuaLogout()">
+        Logout 🔑
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <nav class="navbar">
+
+      <div class="menu">
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#servizi">
+          Servizi
+        </a>
+
+        <a href="#storia">
+          Storia
+        </a>
+      </div>
+
+      <div class="logo">
+        <span>BARBER</span>
+        <strong>SHOP</strong>
+      </div>
+
+      <div class="menu">
+        <a href="#servizi">
+          Prezzi
+        </a>
+
+        <a href="#gallery">
+          Gallery
+        </a>
+
+        <a href="#contatti">
+          Contatti
+        </a>
+      </div>
+
+    </nav>
+
+    <div id="home" class="hero-contenuto">
+
+      <p class="hero-eyebrow">
+        Traditional barber experience
+      </p>
+
+      <h1>
+        BARBER SHOP
+      </h1>
+
+      <h2>
+        Galatioto Giovanni
+      </h2>
+
+      <p class="hero-sottotitolo">
+        Il tuo barbiere di fiducia a Castellammare del Golfo
+      </p>
+
+      <div class="forbici">
+        — ✂️ —
+      </div>
+
+      <a class="btn-hero" href="#servizi">
+        SCOPRI I SERVIZI
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- SERVIZI -->
+
+  <section id="servizi" class="sezione-servizi">
+
+    <header class="intestazione-sezione">
+
+      <p>
+        TAGLIO · BARBA · STILE
+      </p>
+
+      <h2>
+        I NOSTRI SERVIZI
+      </h2>
+
+      <span>
+        Trattamenti professionali dedicati alla cura
+        dei capelli e della barba.
+      </span>
+
+    </header>
+
+    <div class="griglia-servizi">
+
+      <article *ngFor="let servizio of listaServizi" class="card-servizio">
+
+        <div class="icona-servizio">
+
+          <span *ngIf="servizio.id === 1">
+            ✦
+          </span>
+
+          <span *ngIf="servizio.id === 2">
+            ✧
+          </span>
+
+          <span *ngIf="servizio.id === 3">
+            ❖
+          </span>
+
+          <span *ngIf="servizio.id === 4">
+            ⚡
+          </span>
+
+          <span *ngIf="servizio.id === 5">
+            ▲
+          </span>
+
+          <span *ngIf="servizio.id === 6">
+            ⚜
+          </span>
+
+          <span *ngIf="servizio.id === 7">
+            👑
+          </span>
+
+          <span *ngIf="servizio.id === 8">
+            ✨
+          </span>
+
+          <span *ngIf="servizio.id === 9">
+            ★
+          </span>
+
+        </div>
+
+        <div class="contenuto-servizio">
+
+          <h3>
+            {{ servizio.nome }}
+          </h3>
+
+          <p>
+            {{ servizio.descrizione }}
+          </p>
+
+        </div>
+
+        <div class="footer-servizio">
+
+          <div class="dati-servizio">
+
+            <strong>
+              € {{ servizio.prezzo }},00
+            </strong>
+
+            <span>
+              {{ servizio.durata }}
+            </span>
+
+          </div>
+
+          <button type="button" class="btn-prenota" (click)="apriFormPrenotazione(servizio)">
+            PRENOTA
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+  <!-- STORIA -->
+
+  <section id="storia" class="sezione-storia">
+
+    <div class="storia-contenuto">
+
+      <p class="sezione-eyebrow">
+        TRADIZIONE E PROFESSIONALITÀ
+      </p>
+
+      <h2>
+        UN SALONE PENSATO PER IL TUO STILE
+      </h2>
+
+      <p>
+        Barber Shop Galatioto Giovanni unisce la tradizione
+        della rasatura classica alle tecniche moderne di taglio
+        e cura della barba.
+      </p>
+
+      <p>
+        Ogni servizio viene personalizzato in base al volto,
+        allo stile e alle esigenze del cliente.
+      </p>
+
+    </div>
+
+    <div class="storia-numero">
+
+      <strong>
+        9
+      </strong>
+
+      <span>
+        servizi professionali
+      </span>
+
+    </div>
+
+  </section>
+
+  <!-- INFO -->
+
+  <section id="contatti" class="sezione-informazioni">
+
+    <article class="box-informazioni">
+
+      <h3>
+        🕒 Orari di apertura
+      </h3>
+
+      <div class="riga-informazione">
+        <span>
+          Martedì – Venerdì
+        </span>
+
+        <strong>
+          09:00 – 19:00
+        </strong>
+      </div>
+
+      <div class="riga-informazione">
+        <span>
+          Sabato
+        </span>
+
+        <strong>
+          09:00 – 19:00
+        </strong>
+      </div>
+
+      <div class="riga-informazione chiuso">
+        <span>
+          Lunedì e Domenica
+        </span>
+
+        <strong>
+          Chiuso
+        </strong>
+      </div>
+
+    </article>
+
+    <article class="box-informazioni">
+
+      <h3>
+        📍 Il salone
+      </h3>
+
+      <p class="nome-salone">
+        Barber Shop Galatioto Giovanni
+      </p>
+
+      <p>
+        Corso Garibaldi, 189
+      </p>
+
+      <p>
+        91014 Castellammare del Golfo (TP)
+      </p>
+
+      <p>
+        📞 338 7242569
+      </p>
+
+    </article>
+
+  </section>
+
+</section>
+
+<!-- MODALE PRENOTAZIONE -->
+
+<div *ngIf="mostraFormPrenotazione" class="modale-overlay">
+
+  <section class="modale-prenotazione">
+
+    <header class="modale-header">
+
+      <div>
+        <p>
+          NUOVA PRENOTAZIONE
+        </p>
+
+        <h2>
+          Prenota il tuo servizio
+        </h2>
+      </div>
+
+      <button type="button" class="btn-chiudi" (click)="chiudiFormPrenotazione()">
+        ✕
+      </button>
+
+    </header>
+
+    <div *ngIf="servizioSelezionato as servizio" class="riepilogo-servizio">
+
+      <div>
+        <span>
+          Servizio selezionato
+        </span>
+
+        <strong>
+          {{ servizio.nome }}
+        </strong>
+      </div>
+
+      <div class="riepilogo-prezzo">
+        € {{ servizio.prezzo }},00
+      </div>
+
+      <p>
+        Durata prevista: {{ servizio.durata }}
+      </p>
+
+    </div>
+
+    <div class="form-prenotazione">
+
+      <label>
+        Nome cliente
+
+        <input type="text" [value]="nomeCliente" readonly>
+      </label>
+
+      <div class="campo-calendario">
+
+        <span class="etichetta">
+          Seleziona il giorno
+        </span>
+
+
+        <app-calendario [prenotazioni]="listaPrenotazioni" (dataSelezionata)="riceviData($event)">
+        </app-calendario>
+
+      </div>
+
+      <div class="campo-orari">
+
+        <span class="etichetta">
+          Orari disponibili
+        </span>
+        <div class="legenda-orari">
+          <div class="voce-legenda">
+            <span class="colore-legenda disponibile"></span>
+            <span>Disponibile</span>
+          </div>
+
+          <div class="voce-legenda">
+            <span class="colore-legenda quasi-completo"></span>
+            <span>1 posto rimasto</span>
+          </div>
+
+          <div class="voce-legenda">
+            <span class="colore-legenda completo"></span>
+            <span>Occupato</span>
+          </div>
+
+          <div class="voce-legenda">
+            <span class="colore-legenda trascorso"></span>
+            <span>Trascorso</span>
+          </div>
+        </div>
+        <p *ngIf="!giornoScelto" class="messaggio-selezione">
+          Seleziona prima un giorno dal calendario.
+        </p>
+
+        <div class="griglia-orari">
+
+          <button *ngFor="let ora of orariDisponibili" type="button" class="btn-orario" [class.orario-selezionato]="
+              oraScelta === ora
+            " [class.orario-passato]="
+              isOrarioPassato(
+                ora,
+                giornoScelto
+              )
+            " [class.orario-completo]="
+              isOrarioOccupato(
+                ora,
+                giornoScelto
+              )
+            " [class.orario-quasi-completo]="
+              isOrarioQuasiCompleto(
+                ora,
+                giornoScelto
+             )
+            " [disabled]="
+              isOrarioDisabilitato(ora)
+            " (click)="selezionaOrario(ora)">
+            <span>
+              {{ ora }}
+            </span>
+
+            <small *ngIf="testoStatoOrario(ora)">
+              {{ testoStatoOrario(ora) }}
+            </small>
+          </button>
+
+        </div>
+
+      </div>
+
+      <button type="button" class="btn-conferma" (click)="aggiungiPrenotazione()">
+        CONFERMA PRENOTAZIONE 📅
+      </button>
+
+    </div>
+
+  </section>
+
+</div>

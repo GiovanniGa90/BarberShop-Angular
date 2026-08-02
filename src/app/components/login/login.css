@@ -1,0 +1,207 @@
+.login-overlay {
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100vh;
+
+background:
+linear-gradient(
+rgba(0,0,0,0.85),
+rgba(0,0,0,0.85)
+),
+url('/assets/sfondo.jpg');
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:99999;
+
+}
+
+
+
+.login-box {
+
+background:#111;
+
+border:1px solid #c5a880;
+
+padding:50px 40px;
+
+width:90%;
+max-width:400px;
+
+text-align:center;
+
+box-shadow:0 25px 60px rgba(0,0,0,.6);
+
+}
+
+
+
+.logo-box {
+
+border:2px solid white;
+
+display:inline-block;
+
+padding:10px 20px;
+
+margin-bottom:30px;
+
+}
+
+
+
+.logo-box p {
+
+margin:0;
+
+font-family:'Oswald',sans-serif;
+
+font-size:1.3rem;
+
+letter-spacing:4px;
+
+font-weight:bold;
+
+}
+
+
+
+.logo-bianco {
+
+color:white;
+
+}
+
+
+
+.logo-oro {
+
+color:#c5a880;
+
+}
+
+
+
+h2 {
+
+color:white;
+
+font-family:'Oswald',sans-serif;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+font-size:1.4rem;
+
+margin-bottom:25px;
+
+}
+
+
+
+.form-container {
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+text-align:left;
+
+}
+
+
+
+label {
+
+display:block;
+
+color:#c5a880;
+
+font-family:'Oswald',sans-serif;
+
+font-size:.8rem;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+font-weight:bold;
+
+margin-bottom:8px;
+
+}
+
+
+
+input {
+
+width:100%;
+
+box-sizing:border-box;
+
+padding:14px;
+
+background:white;
+
+border:1px solid #111;
+
+font-size:1rem;
+
+}
+
+
+
+button {
+
+width:100%;
+
+padding:14px;
+
+font-family:'Oswald',sans-serif;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+
+
+.btn-login {
+
+background:#c5a880;
+
+color:#111;
+
+border:1px solid #c5a880;
+
+}
+
+
+
+.btn-register {
+
+background:transparent;
+
+color:#c5a880;
+
+border:1px solid #c5a880;
+
+}

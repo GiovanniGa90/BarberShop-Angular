@@ -1,0 +1,66 @@
+<div class="calendario">
+
+ <div class="navigazione-mese">
+
+  <button
+    type="button"
+    class="pulsante-mese"
+    [disabled]="mesePrecedenteDisabilitato"
+    (click)="vaiAlMesePrecedente()"
+    aria-label="Vai al mese precedente"
+  >
+    ‹
+  </button>
+
+  <h2 class="titolo-mese">
+    {{ nomeMeseCorrente | uppercase }}
+  </h2>
+
+  <button
+    type="button"
+    class="pulsante-mese"
+    (click)="vaiAlMeseSuccessivo()"
+    aria-label="Vai al mese successivo"
+  >
+    ›
+  </button>
+
+</div>
+
+  <div class="settimana">
+    <div *ngFor="let giorno of giorniSettimana">
+      {{ giorno }}
+    </div>
+  </div>
+
+<div class="giorni">
+
+  <div
+    class="giorno"
+    *ngFor="let giorno of giorniMese"
+    [class.chiuso]="giorno.chiuso"
+    [class.passato]="giorno.passato"
+    [class.selezionato]="giorno.numero === giornoSelezionato"
+    [class.vuoto]="giorno.numero === ''"
+    [class.non-disponibile]="!giorno.disponibile"
+    [attr.aria-disabled]="!giorno.disponibile"
+    (click)="selezionaGiorno(giorno)"
+  >
+    {{ giorno.numero }}
+  </div>
+
+</div>
+
+
+  <!-- Compare solamente dopo aver scelto un giorno -->
+
+  <div
+    class="contenitore-orari"
+    *ngIf="giornoSelezionato !== null"
+  >
+
+
+
+  </div>
+
+</div>

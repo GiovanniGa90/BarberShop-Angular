@@ -1,0 +1,445 @@
+<section class="dashboard-titolare">
+
+  <header class="dashboard-header">
+
+    <div>
+      <p class="dashboard-eyebrow">
+        AREA RISERVATA
+      </p>
+
+      <h1>
+        PLANCIA BARBIERE
+      </h1>
+    </div>
+
+    <button
+      type="button"
+      class="btn-secondario"
+      (click)="effettuaLogout()"
+    >
+      LOGOUT 🔑
+    </button>
+
+  </header>
+
+  <!-- STATISTICHE -->
+
+  <div class="griglia-statistiche">
+
+    <article class="statistica">
+      <span>Appuntamenti</span>
+      <strong>
+        {{ numeroPrenotazioniGiorno() }}
+      </strong>
+    </article>
+
+    <article class="statistica">
+      <span>Completati</span>
+      <strong>
+        {{ numeroPrenotazioniCompletate() }}
+      </strong>
+    </article>
+
+    <article class="statistica">
+      <span>Annullati</span>
+      <strong>
+        {{ numeroPrenotazioniAnnullate() }}
+      </strong>
+    </article>
+
+    <article class="statistica">
+      <span>Incasso previsto</span>
+      <strong>
+        € {{ calcolaIncassoGiorno() }}
+      </strong>
+    </article>
+
+  </div>
+
+  <!-- AZIONI -->
+
+  <div class="azioni-principali">
+
+    <button
+      type="button"
+      class="btn-principale"
+      (click)="mostraNuovoAppuntamento = true"
+    >
+      ➕ NUOVO APPUNTAMENTO
+    </button>
+
+  </div>
+
+  <!-- NAVIGAZIONE DATA -->
+
+  <div class="navigazione-giorno">
+
+    <button
+      type="button"
+      class="btn-freccia"
+      (click)="giornoPrecedente()"
+    >
+      ←
+    </button>
+
+    <div>
+      <span>Agenda del giorno</span>
+
+      <h2>
+        {{ dataPlancia | date:'dd/MM/yyyy' }}
+      </h2>
+    </div>
+
+    <button
+      type="button"
+      class="btn-freccia"
+      (click)="giornoSuccessivo()"
+    >
+      →
+    </button>
+
+  </div>
+
+  <div class="contenitore-oggi">
+
+    <button
+      type="button"
+      class="btn-secondario"
+      (click)="vaiOggi()"
+    >
+      📅 TORNA A OGGI
+    </button>
+
+  </div>
+
+  <!-- NESSUNA PRENOTAZIONE -->
+
+  <div
+    *ngIf="prenotazioniDelGiorno().length === 0"
+    class="stato-vuoto"
+  >
+    <h3>Nessuna prenotazione</h3>
+
+    <p>
+      Non sono presenti appuntamenti per questa giornata.
+    </p>
+  </div>
+
+  <!-- PRENOTAZIONI -->
+
+  <div class="lista-prenotazioni">
+
+    <article
+      *ngFor="
+        let prenotazione
+        of prenotazioniDelGiorno()
+      "
+      class="card-prenotazione"
+    >
+
+      <div class="card-intestazione">
+
+        <div>
+          <span class="orario">
+            {{ prenotazione.ora }}
+          </span>
+
+          <h3>
+            {{ prenotazione.nome }}
+          </h3>
+        </div>
+
+        <span
+          class="badge-stato"
+          [class.stato-prenotato]="
+            prenotazione.stato === 'prenotato'
+          "
+          [class.stato-confermato]="
+            prenotazione.stato === 'confermato'
+          "
+          [class.stato-arrivato]="
+            prenotazione.stato === 'arrivato'
+          "
+          [class.stato-completato]="
+            prenotazione.stato === 'completato'
+          "
+          [class.stato-annullato]="
+            prenotazione.stato === 'annullato'
+          "
+        >
+          {{ prenotazione.stato }}
+        </span>
+
+      </div>
+
+      <div class="dettagli-prenotazione">
+
+        <p>
+          <span>📧 Email</span>
+
+          <strong>
+            {{ prenotazione.email || 'Non indicata' }}
+          </strong>
+        </p>
+
+        <p>
+          <span>📅 Giorno</span>
+
+          <strong>
+            {{ prenotazione.giorno }}
+          </strong>
+        </p>
+
+        <p>
+          <span>💈 Servizio</span>
+
+          <strong>
+            {{
+              prenotazione
+                .servizioCompleto
+                ?.nome || 'Non indicato'
+            }}
+          </strong>
+        </p>
+
+        <p>
+          <span>💶 Prezzo</span>
+
+          <strong>
+            €
+            {{
+              prenotazione
+                .servizioCompleto
+                ?.prezzo ?? 0
+            }}
+          </strong>
+        </p>
+
+      </div>
+
+      <div class="azioni-prenotazione">
+
+        <label>
+          Cambia stato
+
+          <select
+            [ngModel]="prenotazione.stato"
+            (ngModelChange)="
+              cambiaStatoPrenotazione(
+                prenotazione,
+                $event
+              )
+            "
+          >
+            <option value="prenotato">
+              🟠 Prenotato
+            </option>
+
+            <option value="confermato">
+              🟡 Confermato
+            </option>
+
+            <option value="arrivato">
+              🔵 Arrivato
+            </option>
+
+            <option value="completato">
+              🟢 Completato
+            </option>
+
+            <option value="annullato">
+              🔴 Annullato
+            </option>
+          </select>
+        </label>
+
+        <button
+          type="button"
+          class="btn-elimina"
+          (click)="
+            eliminaPrenotazione(
+              prenotazione
+            )
+          "
+        >
+          CANCELLA PRENOTAZIONE ❌
+        </button>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
+<!-- MODALE NUOVO APPUNTAMENTO -->
+
+<div
+  *ngIf="mostraNuovoAppuntamento"
+  class="modale-overlay"
+>
+
+  <div class="modale">
+
+    <div class="modale-intestazione">
+
+      <div>
+        <span>AGENDA</span>
+
+        <h2>
+          Nuovo appuntamento
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        class="btn-chiudi"
+        (click)="chiudiNuovoAppuntamento()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="form-appuntamento">
+
+      <label>
+        Nome cliente
+
+        <input
+          type="text"
+          placeholder="Es. David Rossi"
+          [(ngModel)]="nuovoClienteNome"
+        >
+      </label>
+
+      <label>
+        Email cliente
+
+        <input
+          type="email"
+          placeholder="Es. david@mail.com"
+          [(ngModel)]="nuovoClienteEmail"
+        >
+      </label>
+
+      <div class="campo-calendario">
+
+        <span>
+          Giorno
+        </span>
+
+        <app-calendario
+          [prenotazioni]="listaPrenotazioni"
+          (dataSelezionata)="
+            nuovoGiorno = $event;
+            nuovaOra = ''
+          "
+        >
+        </app-calendario>
+
+      </div>
+
+      <label>
+  Orario
+
+  <select
+    [(ngModel)]="nuovaOra"
+  >
+    <option
+      value=""
+      disabled
+    >
+      Seleziona un orario
+    </option>
+
+    <option
+      *ngFor="let ora of orariDisponibili"
+      [value]="ora"
+      [disabled]="
+        isOrarioOccupato(
+          ora,
+          nuovoGiorno
+        ) ||
+        isOrarioPassato(
+          ora,
+          nuovoGiorno
+        )
+      "
+    >
+      {{ ora }}
+
+      {{
+        isOrarioPassato(
+          ora,
+          nuovoGiorno
+        )
+          ? ' - Trascorso'
+          : isOrarioOccupato(
+              ora,
+              nuovoGiorno
+            )
+            ? ' - Completo'
+            : ''
+      }}
+    </option>
+  </select>
+</label>
+
+      <label>
+        Servizio
+
+        <select
+          [(ngModel)]="nuovoServizio"
+        >
+          <option
+            [ngValue]="null"
+            disabled
+          >
+            Seleziona un servizio
+          </option>
+
+          <option
+            *ngFor="
+              let servizio
+              of listaServizi
+            "
+            [ngValue]="servizio"
+          >
+            {{ servizio.nome }}
+            -
+            € {{ servizio.prezzo }}
+          </option>
+        </select>
+      </label>
+
+      <div class="azioni-modale">
+
+        <button
+          type="button"
+          class="btn-principale"
+          (click)="
+            aggiungiAppuntamentoTitolare()
+          "
+        >
+          SALVA APPUNTAMENTO
+        </button>
+
+        <button
+          type="button"
+          class="btn-secondario"
+          (click)="
+            chiudiNuovoAppuntamento()
+          "
+        >
+          ANNULLA
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
