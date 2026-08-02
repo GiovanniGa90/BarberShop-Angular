@@ -16,6 +16,7 @@ import {
   Prenotazione,
   StatoPrenotazione
 } from '../../models/prenotazione.model';
+import { PrenotazioniService } from '../../services/prenotazioni';
 
 @Component({
   selector: 'app-dashboard-titolare',
@@ -41,6 +42,10 @@ export class DashboardTitolare {
   @Input() orariDisponibili: string[] = [];
 
   @Input() dataMinima = '';
+
+  constructor(
+  private prenotazioniService: PrenotazioniService
+) {}
 
   // =========================================================
   // EVENTI INVIATI AD APP.COMPONENT
@@ -264,58 +269,37 @@ export class DashboardTitolare {
       );
   }
 
-  isOrarioOccupato(
-    orario: string,
-    giorno: string
-  ): boolean {
-    if (!giorno || !orario) {
-      return false;
-    }
+isOrarioOccupato(
+  orario: string,
+  giorno: string
+): boolean {
 
-    const numeroPrenotazioni =
-      this.listaPrenotazioni.filter(
-        prenotazione =>
-          prenotazione.giorno === giorno &&
-          prenotazione.ora === orario &&
-          prenotazione.stato !== 'annullato'
-      ).length;
-
-    return numeroPrenotazioni >= 2;
+  if (
+    !giorno ||
+    !orario ||
+    !this.nuovoServizio
+  ) {
+    return false;
   }
-  isOrarioPassato(
+
+  return this.prenotazioniService
+    .isOrarioOccupato(
+      this.listaPrenotazioni,
+      giorno,
+      orario,
+      this.nuovoServizio.durata
+    );
+}
+isOrarioPassato(
   orario: string,
   giorno: string = this.nuovoGiorno
 ): boolean {
-  if (!giorno || !orario) {
-    return false;
-  }
 
-  const oggi = this.formattaDataLocale(
-    new Date()
-  );
-
-  // Nei giorni futuri gli orari non sono passati
-  if (giorno !== oggi) {
-    return false;
-  }
-
-  const [ore, minuti] =
-    orario.split(':').map(Number);
-
-  const adesso = new Date();
-
-  const dataOrarioPrenotazione =
-    new Date(
-      adesso.getFullYear(),
-      adesso.getMonth(),
-      adesso.getDate(),
-      ore,
-      minuti,
-      0,
-      0
+  return this.prenotazioniService
+    .isOrarioPassato(
+      giorno,
+      orario
     );
-
-  return dataOrarioPrenotazione <= adesso;
 }
 
   // =========================================================
@@ -422,32 +406,12 @@ export class DashboardTitolare {
   // FUNZIONI DI SUPPORTO
   // =========================================================
 
-  private isGiornoChiusura(
-    data: string
-  ): boolean {
-    const parti =
-      data.split('-').map(Number);
-
-    if (parti.length !== 3) {
-      return false;
-    }
-
-    const [anno, mese, giorno] = parti;
-
-    const dataLocale = new Date(
-      anno,
-      mese - 1,
-      giorno
-    );
-
-    const giornoSettimana =
-      dataLocale.getDay();
-
-    return (
-      giornoSettimana === 0 ||
-      giornoSettimana === 1
-    );
-  }
+private isGiornoChiusura(
+  data: string
+): boolean {
+  return this.prenotazioniService
+    .isGiornoChiusura(data);
+}
 
   private generaId(): number {
     return (

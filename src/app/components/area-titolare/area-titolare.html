@@ -12,11 +12,7 @@
       </h1>
     </div>
 
-    <button
-      type="button"
-      class="btn-secondario"
-      (click)="effettuaLogout()"
-    >
+    <button type="button" class="btn-secondario" (click)="effettuaLogout()">
       LOGOUT 🔑
     </button>
 
@@ -60,11 +56,7 @@
 
   <div class="azioni-principali">
 
-    <button
-      type="button"
-      class="btn-principale"
-      (click)="mostraNuovoAppuntamento = true"
-    >
+    <button type="button" class="btn-principale" (click)="mostraNuovoAppuntamento = true">
       ➕ NUOVO APPUNTAMENTO
     </button>
 
@@ -74,11 +66,7 @@
 
   <div class="navigazione-giorno">
 
-    <button
-      type="button"
-      class="btn-freccia"
-      (click)="giornoPrecedente()"
-    >
+    <button type="button" class="btn-freccia" (click)="giornoPrecedente()">
       ←
     </button>
 
@@ -90,11 +78,7 @@
       </h2>
     </div>
 
-    <button
-      type="button"
-      class="btn-freccia"
-      (click)="giornoSuccessivo()"
-    >
+    <button type="button" class="btn-freccia" (click)="giornoSuccessivo()">
       →
     </button>
 
@@ -102,11 +86,7 @@
 
   <div class="contenitore-oggi">
 
-    <button
-      type="button"
-      class="btn-secondario"
-      (click)="vaiOggi()"
-    >
+    <button type="button" class="btn-secondario" (click)="vaiOggi()">
       📅 TORNA A OGGI
     </button>
 
@@ -114,10 +94,7 @@
 
   <!-- NESSUNA PRENOTAZIONE -->
 
-  <div
-    *ngIf="prenotazioniDelGiorno().length === 0"
-    class="stato-vuoto"
-  >
+  <div *ngIf="prenotazioniDelGiorno().length === 0" class="stato-vuoto">
     <h3>Nessuna prenotazione</h3>
 
     <p>
@@ -129,13 +106,10 @@
 
   <div class="lista-prenotazioni">
 
-    <article
-      *ngFor="
+    <article *ngFor="
         let prenotazione
         of prenotazioniDelGiorno()
-      "
-      class="card-prenotazione"
-    >
+      " class="card-prenotazione">
 
       <div class="card-intestazione">
 
@@ -149,24 +123,17 @@
           </h3>
         </div>
 
-        <span
-          class="badge-stato"
-          [class.stato-prenotato]="
+        <span class="badge-stato" [class.stato-prenotato]="
             prenotazione.stato === 'prenotato'
-          "
-          [class.stato-confermato]="
+          " [class.stato-confermato]="
             prenotazione.stato === 'confermato'
-          "
-          [class.stato-arrivato]="
+          " [class.stato-arrivato]="
             prenotazione.stato === 'arrivato'
-          "
-          [class.stato-completato]="
+          " [class.stato-completato]="
             prenotazione.stato === 'completato'
-          "
-          [class.stato-annullato]="
+          " [class.stato-annullato]="
             prenotazione.stato === 'annullato'
-          "
-        >
+          ">
           {{ prenotazione.stato }}
         </span>
 
@@ -222,15 +189,12 @@
         <label>
           Cambia stato
 
-          <select
-            [ngModel]="prenotazione.stato"
-            (ngModelChange)="
+          <select [ngModel]="prenotazione.stato" (ngModelChange)="
               cambiaStatoPrenotazione(
                 prenotazione,
                 $event
               )
-            "
-          >
+            ">
             <option value="prenotato">
               🟠 Prenotato
             </option>
@@ -253,15 +217,11 @@
           </select>
         </label>
 
-        <button
-          type="button"
-          class="btn-elimina"
-          (click)="
+        <button type="button" class="btn-elimina" (click)="
             eliminaPrenotazione(
               prenotazione
             )
-          "
-        >
+          ">
           CANCELLA PRENOTAZIONE ❌
         </button>
 
@@ -275,10 +235,7 @@
 
 <!-- MODALE NUOVO APPUNTAMENTO -->
 
-<div
-  *ngIf="mostraNuovoAppuntamento"
-  class="modale-overlay"
->
+<div *ngIf="mostraNuovoAppuntamento" class="modale-overlay">
 
   <div class="modale">
 
@@ -292,11 +249,7 @@
         </h2>
       </div>
 
-      <button
-        type="button"
-        class="btn-chiudi"
-        (click)="chiudiNuovoAppuntamento()"
-      >
+      <button type="button" class="btn-chiudi" (click)="chiudiNuovoAppuntamento()">
         ✕
       </button>
 
@@ -307,21 +260,13 @@
       <label>
         Nome cliente
 
-        <input
-          type="text"
-          placeholder="Es. David Rossi"
-          [(ngModel)]="nuovoClienteNome"
-        >
+        <input type="text" placeholder="Es. David Rossi" [(ngModel)]="nuovoClienteNome">
       </label>
 
       <label>
         Email cliente
 
-        <input
-          type="email"
-          placeholder="Es. david@mail.com"
-          [(ngModel)]="nuovoClienteEmail"
-        >
+        <input type="email" placeholder="Es. david@mail.com" [(ngModel)]="nuovoClienteEmail">
       </label>
 
       <div class="campo-calendario">
@@ -330,34 +275,41 @@
           Giorno
         </span>
 
-        <app-calendario
-          [prenotazioni]="listaPrenotazioni"
-          (dataSelezionata)="
+        <app-calendario [prenotazioni]="listaPrenotazioni" (dataSelezionata)="
             nuovoGiorno = $event;
             nuovaOra = ''
-          "
-        >
+          ">
         </app-calendario>
 
       </div>
+            <label>
+        Servizio
+
+        <select [(ngModel)]="nuovoServizio">
+          <option [ngValue]="null" disabled>
+            Seleziona un servizio
+          </option>
+
+          <option *ngFor="
+              let servizio
+              of listaServizi
+            " [ngValue]="servizio">
+            {{ servizio.nome }}
+            -
+            € {{ servizio.prezzo }}
+          </option>
+        </select>
+      </label>
 
       <label>
-  Orario
+        Orario
 
-  <select
-    [(ngModel)]="nuovaOra"
-  >
-    <option
-      value=""
-      disabled
-    >
-      Seleziona un orario
-    </option>
+        <select [(ngModel)]="nuovaOra">
+          <option value="" disabled>
+            Seleziona un orario
+          </option>
 
-    <option
-      *ngFor="let ora of orariDisponibili"
-      [value]="ora"
-      [disabled]="
+          <option *ngFor="let ora of orariDisponibili" [value]="ora" [disabled]="
         isOrarioOccupato(
           ora,
           nuovoGiorno
@@ -366,11 +318,10 @@
           ora,
           nuovoGiorno
         )
-      "
-    >
-      {{ ora }}
+      ">
+            {{ ora }}
 
-      {{
+            {{
         isOrarioPassato(
           ora,
           nuovoGiorno
@@ -383,56 +334,23 @@
             ? ' - Completo'
             : ''
       }}
-    </option>
-  </select>
-</label>
-
-      <label>
-        Servizio
-
-        <select
-          [(ngModel)]="nuovoServizio"
-        >
-          <option
-            [ngValue]="null"
-            disabled
-          >
-            Seleziona un servizio
-          </option>
-
-          <option
-            *ngFor="
-              let servizio
-              of listaServizi
-            "
-            [ngValue]="servizio"
-          >
-            {{ servizio.nome }}
-            -
-            € {{ servizio.prezzo }}
           </option>
         </select>
       </label>
 
+
+
       <div class="azioni-modale">
 
-        <button
-          type="button"
-          class="btn-principale"
-          (click)="
+        <button type="button" class="btn-principale" (click)="
             aggiungiAppuntamentoTitolare()
-          "
-        >
+          ">
           SALVA APPUNTAMENTO
         </button>
 
-        <button
-          type="button"
-          class="btn-secondario"
-          (click)="
+        <button type="button" class="btn-secondario" (click)="
             chiudiNuovoAppuntamento()
-          "
-        >
+          ">
           ANNULLA
         </button>
 
