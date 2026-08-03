@@ -1,66 +1,119 @@
-<div class="calendario">
+<section class="calendario">
 
- <div class="navigazione-mese">
+  <header class="navigazione-mese">
 
-  <button
-    type="button"
-    class="pulsante-mese"
-    [disabled]="mesePrecedenteDisabilitato"
-    (click)="vaiAlMesePrecedente()"
-    aria-label="Vai al mese precedente"
-  >
-    ‹
-  </button>
+    <button
+      type="button"
+      class="pulsante-mese"
+      [disabled]="mesePrecedenteDisabilitato"
+      (click)="vaiAlMesePrecedente()"
+      aria-label="Vai al mese precedente"
+    >
+      ‹
+    </button>
 
-  <h2 class="titolo-mese">
-    {{ nomeMeseCorrente | uppercase }}
-  </h2>
+    <div class="intestazione-mese">
+      <span>
+        Seleziona una data
+      </span>
 
-  <button
-    type="button"
-    class="pulsante-mese"
-    (click)="vaiAlMeseSuccessivo()"
-    aria-label="Vai al mese successivo"
-  >
-    ›
-  </button>
+      <h2 class="titolo-mese">
+        {{ nomeMeseCorrente }}
+      </h2>
+    </div>
 
-</div>
+    <button
+      type="button"
+      class="pulsante-mese"
+      (click)="vaiAlMeseSuccessivo()"
+      aria-label="Vai al mese successivo"
+    >
+      ›
+    </button>
+
+  </header>
 
   <div class="settimana">
-    <div *ngFor="let giorno of giorniSettimana">
+
+    <div
+      *ngFor="let giorno of giorniSettimana"
+      class="nome-giorno"
+    >
       {{ giorno }}
     </div>
-  </div>
-
-<div class="giorni">
-
-  <div
-    class="giorno"
-    *ngFor="let giorno of giorniMese"
-    [class.chiuso]="giorno.chiuso"
-    [class.passato]="giorno.passato"
-    [class.selezionato]="giorno.numero === giornoSelezionato"
-    [class.vuoto]="giorno.numero === ''"
-    [class.non-disponibile]="!giorno.disponibile"
-    [attr.aria-disabled]="!giorno.disponibile"
-    (click)="selezionaGiorno(giorno)"
-  >
-    {{ giorno.numero }}
-  </div>
-
-</div>
-
-
-  <!-- Compare solamente dopo aver scelto un giorno -->
-
-  <div
-    class="contenitore-orari"
-    *ngIf="giornoSelezionato !== null"
-  >
-
-
 
   </div>
 
-</div>
+  <div class="giorni">
+
+    <button
+      *ngFor="let giorno of giorniMese"
+      type="button"
+      class="giorno"
+      [class.vuoto]="giorno.numero === null"
+      [class.chiuso]="giorno.chiuso"
+      [class.passato]="giorno.passato"
+      [class.oggi]="giorno.oggi"
+      [class.selezionato]="
+        giorno.numero === giornoSelezionato
+      "
+      [class.non-disponibile]="
+        !giorno.disponibile
+      "
+      [disabled]="
+        giorno.numero === null ||
+        !giorno.disponibile
+      "
+      [attr.aria-label]="
+        giorno.numero !== null
+          ? 'Seleziona il giorno ' + giorno.numero
+          : null
+      "
+      (click)="selezionaGiorno(giorno)"
+    >
+      <span class="numero-giorno">
+        {{ giorno.numero }}
+      </span>
+
+      <span
+        *ngIf="giorno.oggi"
+        class="indicatore-oggi"
+      >
+        Oggi
+      </span>
+
+      <span
+        *ngIf="giorno.chiuso"
+        class="indicatore-chiuso"
+      >
+        Chiuso
+      </span>
+    </button>
+
+  </div>
+
+  <footer class="legenda-calendario">
+
+    <div>
+      <span class="pallino disponibile"></span>
+      Disponibile
+    </div>
+
+    <div>
+      <span class="pallino selezione"></span>
+      Selezionato
+    </div>
+
+    <div>
+      <span class="pallino chiusura"></span>
+      Chiuso
+    </div>
+
+    <div>
+      <span class="pallino trascorso"></span>
+      Trascorso
+    </div>
+
+  </footer>
+
+</section>

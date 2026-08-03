@@ -1,202 +1,330 @@
-.calendar-grid {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:4px;
-  width:100%;
+:host {
+  display: block;
+  width: 100%;
 }
 
-
-.giorno {
-
-  width:34px;
-  height:34px;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-size:0.85rem;
-  cursor:pointer;
+.calendario {
+  width: 100%;
+  padding: 22px;
+  color: #f3f3f3;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.025),
+      rgba(255, 255, 255, 0.005)
+    );
+  border: 1px solid #302d29;
+  border-radius: 16px;
+  box-sizing: border-box;
 }
 
-
-.settimana,
-.giorni {
-
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:4px;
-  text-align:center;
-
-}
-
-
-.settimana {
-
-  color:#c5a880;
-  margin-bottom:8px;
-  font-size:0.8rem;
-
-}
-
+/* =========================================================
+   NAVIGAZIONE MESE
+   ========================================================= */
 
 .navigazione-mese {
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  grid-template-columns: 48px 1fr 48px;
   align-items: center;
-  gap: 12px;
-  margin: 8px 0 14px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.pulsante-mese {
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #c5a880;
-  background: transparent;
-  border: 1px solid #c5a880;
-  border-radius: 6px;
-
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-
-  transition:
-    background 0.2s,
-    color 0.2s,
-    opacity 0.2s;
+.intestazione-mese {
+  min-width: 0;
+  text-align: center;
 }
 
-.pulsante-mese:hover:not(:disabled) {
-  color: #111;
-  background: #c5a880;
-}
-
-.pulsante-mese:disabled {
-  color: #555;
-  border-color: #444;
-  cursor: not-allowed;
-  opacity: 0.35;
+.intestazione-mese span {
+  display: block;
+  margin-bottom: 5px;
+  color: #777777;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .titolo-mese {
   margin: 0;
-  text-align: center;
-  color: #c5a880;
+  overflow: hidden;
+  color: #d5b98f;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
   text-transform: uppercase;
-  font-size: 1.3rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   letter-spacing: 2px;
 }
 
-
-.chiuso {
-
-  color:#555;
-  background:#222;
+.pulsante-mese {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: #d5b98f;
+  background: #171717;
+  border: 1px solid #3a3733;
+  border-radius: 50%;
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-
-.passato {
-
-  background:#1a1a1a;
-  color:#444;
-  opacity:0.4;
-
+.pulsante-mese:hover:not(:disabled) {
+  color: #111111;
+  background: #d5b98f;
+  border-color: #d5b98f;
+  transform: translateY(-2px);
 }
 
+.pulsante-mese:disabled {
+  color: #4e4e4e;
+  background: #131313;
+  border-color: #292929;
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* =========================================================
+   SETTIMANA
+   ========================================================= */
+
+.settimana,
+.giorni {
+  display: grid;
+  grid-template-columns:
+    repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.settimana {
+  margin-bottom: 8px;
+}
+
+.nome-giorno {
+  padding: 7px 0;
+  color: #967f60;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   GIORNI
+   ========================================================= */
+
+.giorno {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  color: #eeeeee;
+  background: #171717;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.giorno:hover:not(:disabled):not(.selezionato) {
+  color: #d5b98f;
+  background: #1d1b18;
+  border-color: rgba(213, 185, 143, 0.7);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.numero-giorno {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: 600;
+}
+
+.giorno.oggi {
+  color: #d5b98f;
+  border-color: rgba(213, 185, 143, 0.65);
+  box-shadow:
+    inset 0 0 0 1px rgba(213, 185, 143, 0.15);
+}
+
+.indicatore-oggi,
+.indicatore-chiuso {
+  font-size: 0.48rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.indicatore-oggi {
+  color: #d5b98f;
+}
+
+.indicatore-chiuso {
+  color: #555555;
+}
 
 .giorno.selezionato {
-
-  background:#c5a880;
-  color:#111;
-  font-weight:bold;
-
-}
-.contenitore-orari {
-  margin-top: 40px;
-  padding-top: 30px;
-  border-top: 1px solid #c9a97b;
-}
-
-.contenitore-orari h3 {
-  margin-bottom: 24px;
-  color: #c9a97b;
-  text-align: center;
-  letter-spacing: 3px;
-}
-
-.griglia-orari {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-
-.orario {
-  padding: 13px 8px;
-  color: #ffffff;
-  background: transparent;
-  border: 1px solid #c9a97b;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.orario:hover {
   color: #111111;
-  background: #c9a97b;
+  background:
+    linear-gradient(
+      135deg,
+      #dfc59d,
+      #b9966d
+    );
+  border-color: #dfc59d;
+  box-shadow:
+    0 8px 22px rgba(197, 168, 128, 0.22);
+  transform: translateY(-2px);
 }
 
-.orario.selezionato {
-  color: #111111;
-  background: #c9a97b;
-  border-color: #c9a97b;
-}
-
-.giorno.vuoto {
-  pointer-events: none;
-  background: transparent;
-}
-.giorno.chiuso,
-.giorno.passato,
-.giorno.non-disponibile {
-  cursor: not-allowed;
-  pointer-events: none;
+.giorno.selezionato .indicatore-oggi {
+  color: #352b20;
 }
 
 .giorno.chiuso {
-  color: #555;
-  background: #222;
-  opacity: 0.5;
+  color: #535353;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #181818,
+      #181818 5px,
+      #151515 5px,
+      #151515 10px
+    );
+  border-color: #242424;
 }
 
 .giorno.passato {
-  background: #1a1a1a;
-  color: #444;
-  opacity: 0.4;
+  color: #444444;
+  background: #131313;
+  border-color: #202020;
+  opacity: 0.48;
 }
 
-@media (max-width: 600px) {
-  .griglia-orari {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .navigazione-mese {
-  grid-template-columns: 38px 1fr 38px;
+.giorno.non-disponibile {
+  cursor: not-allowed;
+}
+
+.giorno.vuoto {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* =========================================================
+   LEGENDA
+   ========================================================= */
+
+.legenda-calendario {
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 18px;
+  color: #858585;
+  border-top: 1px solid #292929;
+  font-size: 0.68rem;
+}
+
+.legenda-calendario div {
+  display: flex;
+  align-items: center;
   gap: 6px;
 }
 
-.pulsante-mese {
-  width: 36px;
-  height: 36px;
-  font-size: 24px;
+.pallino {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
 }
 
-.titolo-mese {
-  font-size: 1.05rem;
-  letter-spacing: 1px;
+.pallino.disponibile {
+  background: #eeeeee;
 }
+
+.pallino.selezione {
+  background: #d5b98f;
+}
+
+.pallino.chiusura {
+  background: #4b4b4b;
+}
+
+.pallino.trascorso {
+  background: #292929;
+  border: 1px solid #474747;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .calendario {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .navigazione-mese {
+    grid-template-columns: 40px 1fr 40px;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .pulsante-mese {
+    width: 40px;
+    height: 40px;
+    font-size: 1.65rem;
+  }
+
+  .settimana,
+  .giorni {
+    gap: 4px;
+  }
+
+  .giorno {
+    min-height: 42px;
+    border-radius: 7px;
+  }
+
+  .titolo-mese {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+
+  .indicatore-oggi,
+  .indicatore-chiuso {
+    display: none;
+  }
+
+  .legenda-calendario {
+    justify-content: flex-start;
+    gap: 10px 14px;
+  }
 }

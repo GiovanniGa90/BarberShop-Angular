@@ -106,10 +106,12 @@
 
   <div class="lista-prenotazioni">
 
-    <article *ngFor="
-        let prenotazione
-        of prenotazioniDelGiorno()
-      " class="card-prenotazione">
+    <article *ngFor="let prenotazione of prenotazioniDelGiorno()" class="card-prenotazione"
+      [class.card-prenotato]="prenotazione.stato === 'prenotato'"
+      [class.card-confermato]="prenotazione.stato === 'confermato'"
+      [class.card-arrivato]="prenotazione.stato === 'arrivato'"
+      [class.card-completato]="prenotazione.stato === 'completato'"
+      [class.card-annullato]="prenotazione.stato === 'annullato'">
 
       <div class="card-intestazione">
 
@@ -257,59 +259,194 @@
 
     <div class="form-appuntamento">
 
-      <label>
-        Nome cliente
+      <section class="sezione-configurazione">
 
-        <input type="text" placeholder="Es. David Rossi" [(ngModel)]="nuovoClienteNome">
-      </label>
+        <div class="titolo-sezione">
 
-      <label>
-        Email cliente
+          <span class="numero-passaggio" [class.passaggio-completato]="
+        nuovoClienteNome.trim() &&
+        nuovoClienteEmail.trim()
+      ">
+            {{
+        nuovoClienteNome.trim() &&
+        nuovoClienteEmail.trim()
+          ? '✓'
+          : '1'
+      }}
+          </span>
 
-        <input type="email" placeholder="Es. david@mail.com" [(ngModel)]="nuovoClienteEmail">
-      </label>
+          <div>
+            <span class="titolo-piccolo">
+              CLIENTE
+            </span>
 
-      <div class="campo-calendario">
+            <h3>
+              Inserisci i dati
+            </h3>
+          </div>
 
-        <span>
-          Giorno
-        </span>
+        </div>
 
-        <app-calendario [prenotazioni]="listaPrenotazioni" (dataSelezionata)="
-            nuovoGiorno = $event;
-            nuovaOra = ''
-          ">
-        </app-calendario>
+        <div class="griglia-dati-cliente">
 
-      </div>
-            <label>
-        Servizio
+          <label class="campo-cliente">
+            <span>
+              Nome cliente
+            </span>
 
-        <select [(ngModel)]="nuovoServizio">
-          <option [ngValue]="null" disabled>
-            Seleziona un servizio
-          </option>
+            <input type="text" placeholder="Es. David Rossi" [(ngModel)]="nuovoClienteNome" autocomplete="name">
+          </label>
 
-          <option *ngFor="
-              let servizio
-              of listaServizi
-            " [ngValue]="servizio">
-            {{ servizio.nome }}
-            -
-            € {{ servizio.prezzo }}
-          </option>
-        </select>
-      </label>
+          <label class="campo-cliente">
+            <span>
+              Email cliente
+            </span>
 
-      <label>
-        Orario
+            <input type="email" placeholder="Es. david@mail.com" [(ngModel)]="nuovoClienteEmail" autocomplete="email">
+          </label>
 
-        <select [(ngModel)]="nuovaOra">
-          <option value="" disabled>
-            Seleziona un orario
-          </option>
+        </div>
 
-          <option *ngFor="let ora of orariDisponibili" [value]="ora" [disabled]="
+      </section>
+      <section class="sezione-configurazione">
+
+        <div class="titolo-sezione">
+          <span class="numero-passaggio" [class.passaggio-completato]="nuovoServizio">
+            {{ nuovoServizio ? '✓' : '2' }}
+          </span>
+
+          <div>
+            <span class="titolo-piccolo">
+              SERVIZIO
+            </span>
+
+            <h3>
+              Scegli il trattamento
+            </h3>
+          </div>
+        </div>
+
+        <div class="griglia-servizi">
+
+          <button *ngFor="let servizio of listaServizi" type="button" class="card-servizio" [class.selezionato]="
+        nuovoServizio?.id === servizio.id
+      " (click)="
+        nuovoServizio = servizio;
+        nuovaOra = ''
+      ">
+
+            <span class="icona-servizio">
+              {{
+          servizio.nome.includes('BARBA')
+            ? '🧔'
+            : servizio.nome.includes('SHAMPOO')
+              ? '🧴'
+              : servizio.nome.includes('COMPLETO')
+                ? '💈'
+                : '✂️'
+        }}
+            </span>
+
+            <span class="nome-servizio">
+              {{ servizio.nome }}
+            </span>
+
+            <span class="dati-servizio">
+              {{ servizio.durata }} min
+            </span>
+
+            <strong class="prezzo-servizio">
+              € {{ servizio.prezzo }}
+            </strong>
+
+            <span *ngIf="
+          nuovoServizio?.id === servizio.id
+        " class="spunta-selezione">
+              ✓
+            </span>
+
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="sezione-configurazione">
+
+        <div class="titolo-sezione">
+
+          <span class="numero-passaggio" [class.passaggio-completato]="nuovoGiorno">
+            {{ nuovoGiorno ? '✓' : '3' }}
+          </span>
+
+          <div>
+            <span class="titolo-piccolo">
+              GIORNO
+            </span>
+
+            <h3>
+              Scegli la data
+            </h3>
+          </div>
+
+        </div>
+
+        <div class="campo-calendario">
+
+          <app-calendario [prenotazioni]="listaPrenotazioni" (dataSelezionata)="
+        nuovoGiorno = $event;
+        nuovaOra = ''
+      ">
+          </app-calendario>
+
+        </div>
+
+      </section>
+
+
+      <section class="sezione-configurazione">
+
+        <div class="titolo-sezione">
+          <span class="numero-passaggio" [class.passaggio-completato]="nuovaOra">
+            {{ nuovaOra ? '✓' : '4' }}
+          </span>
+
+          <div>
+            <span class="titolo-piccolo">
+              ORARIO
+            </span>
+
+            <h3>
+              Scegli l’orario
+            </h3>
+          </div>
+        </div>
+
+        <div *ngIf="
+      !nuovoGiorno ||
+      !nuovoServizio
+    " class="messaggio-selezione">
+          Seleziona prima un servizio e un giorno.
+        </div>
+
+        <div *ngIf="
+      nuovoGiorno &&
+      nuovoServizio
+    " class="griglia-orari-modale">
+
+          <button *ngFor="let ora of orariDisponibili" type="button" class="pulsante-orario" [class.selezionato]="
+        nuovaOra === ora
+      " [class.trascorso]="
+        isOrarioPassato(
+          ora,
+          nuovoGiorno
+        )
+      " [class.occupato]="
+        isOrarioOccupato(
+          ora,
+          nuovoGiorno
+        )
+      " [disabled]="
         isOrarioOccupato(
           ora,
           nuovoGiorno
@@ -318,33 +455,131 @@
           ora,
           nuovoGiorno
         )
-      ">
-            {{ ora }}
+      " (click)="nuovaOra = ora">
 
-            {{
-        isOrarioPassato(
-          ora,
-          nuovoGiorno
-        )
-          ? ' - Trascorso'
-          : isOrarioOccupato(
-              ora,
-              nuovoGiorno
-            )
-            ? ' - Completo'
-            : ''
-      }}
-          </option>
-        </select>
-      </label>
+            <span class="ora-valore">
+              {{ ora }}
+            </span>
 
+            <span class="stato-orario">
+              {{
+          isOrarioPassato(
+            ora,
+            nuovoGiorno
+          )
+            ? 'Trascorso'
+            : isOrarioOccupato(
+                ora,
+                nuovoGiorno
+              )
+              ? 'Completo'
+              : nuovaOra === ora
+                ? 'Selezionato'
+                : 'Disponibile'
+        }}
+            </span>
 
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="riepilogo-appuntamento">
+
+        <div class="riepilogo-intestazione">
+          <span>
+            RIEPILOGO
+          </span>
+
+          <strong>
+            Il nuovo appuntamento
+          </strong>
+        </div>
+
+        <div class="griglia-riepilogo">
+
+          <div>
+            <span>Cliente</span>
+
+            <strong>
+              {{
+          nuovoClienteNome ||
+          'Da indicare'
+        }}
+            </strong>
+          </div>
+
+          <div>
+            <span>Servizio</span>
+
+            <strong>
+              {{
+          nuovoServizio?.nome ||
+          'Da selezionare'
+        }}
+            </strong>
+          </div>
+
+          <div>
+            <span>Durata</span>
+
+            <strong>
+              {{
+          nuovoServizio
+            ? nuovoServizio.durata + ' min'
+            : 'Da selezionare'
+        }}
+            </strong>
+          </div>
+
+          <div>
+            <span>Prezzo</span>
+
+            <strong>
+              {{
+          nuovoServizio
+            ? '€ ' + nuovoServizio.prezzo
+            : 'Da selezionare'
+        }}
+            </strong>
+          </div>
+
+          <div>
+            <span>Data</span>
+
+            <strong>
+              {{
+          nuovoGiorno ||
+          'Da selezionare'
+        }}
+            </strong>
+          </div>
+
+          <div>
+            <span>Orario</span>
+
+            <strong>
+              {{
+          nuovaOra ||
+          'Da selezionare'
+        }}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
 
       <div class="azioni-modale">
 
-        <button type="button" class="btn-principale" (click)="
-            aggiungiAppuntamentoTitolare()
-          ">
+        <button type="button" class="btn-principale" [disabled]="
+    !nuovoClienteNome.trim() ||
+    !nuovoClienteEmail.trim() ||
+    !nuovoServizio ||
+    !nuovoGiorno ||
+    !nuovaOra
+  " (click)="aggiungiAppuntamentoTitolare()">
           SALVA APPUNTAMENTO
         </button>
 

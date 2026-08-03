@@ -1,8 +1,9 @@
 import {
   Component,
   EventEmitter,
-  Output,
-  Input
+  Input,
+  OnInit,
+  Output
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -12,18 +13,30 @@ import {
   FasciaOraria
 } from '../../config/calendario.config';
 
+interface GiornoCalendario {
+  numero: number | null;
+  disponibile: boolean;
+  chiuso: boolean;
+  passato: boolean;
+  oggi: boolean;
+}
+
 @Component({
   selector: 'app-calendario',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './calendario.html',
-  styleUrl: './calendario.css',
+  styleUrl: './calendario.css'
 })
-export class Calendario {
+export class Calendario implements OnInit {
 
   @Output()
   dataSelezionata = new EventEmitter<string>();
 
+  /*
+   * Rimane disponibile per le prossime funzioni:
+   * giorni pieni, disponibilità e collaboratori.
+   */
   @Input()
   prenotazioni: any[] = [];
 
@@ -34,7 +47,7 @@ export class Calendario {
   readonly configurazioneCalendario =
     CALENDARIO_CONFIG;
 
-  giorniSettimana = [
+  readonly giorniSettimana = [
     'L',
     'M',
     'M',
@@ -44,13 +57,19 @@ export class Calendario {
     'D'
   ];
 
-  giorniMese: any[] = [];
+  giorniMese: GiornoCalendario[] = [];
 
   giornoSelezionato: number | null = null;
 
   orarioSelezionato: string | null = null;
 
   constructor() {
+    this.meseCorrente = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+
     this.creaCalendario();
   }
 
@@ -58,10 +77,6 @@ export class Calendario {
     this.generaOrariDisponibili();
   }
 
-  /**
-   * Nome del mese visualizzato.
-   * Esempio: luglio 2026
-   */
   get nomeMeseCorrente(): string {
     return this.meseCorrente.toLocaleDateString(
       'it-IT',
@@ -72,39 +87,25 @@ export class Calendario {
     );
   }
 
-  /**
-   * Impedisce di andare a un mese precedente
-   * rispetto al mese attuale.
-   */
   get mesePrecedenteDisabilitato(): boolean {
-
     const oggi = new Date();
 
-    const primoGiornoMeseAttuale =
-      new Date(
-        oggi.getFullYear(),
-        oggi.getMonth(),
-        1
-      );
-
-    const primoGiornoMeseVisualizzato =
-      new Date(
-        this.meseCorrente.getFullYear(),
-        this.meseCorrente.getMonth(),
-        1
-      );
-
-    return (
-      primoGiornoMeseVisualizzato <=
-      primoGiornoMeseAttuale
+    const meseAttuale = new Date(
+      oggi.getFullYear(),
+      oggi.getMonth(),
+      1
     );
+
+    const meseVisualizzato = new Date(
+      this.meseCorrente.getFullYear(),
+      this.meseCorrente.getMonth(),
+      1
+    );
+
+    return meseVisualizzato <= meseAttuale;
   }
 
-  /**
-   * Passa al mese precedente.
-   */
   vaiAlMesePrecedente(): void {
-
     if (this.mesePrecedenteDisabilitato) {
       return;
     }
@@ -119,11 +120,7 @@ export class Calendario {
     this.creaCalendario();
   }
 
-  /**
-   * Passa al mese successivo.
-   */
   vaiAlMeseSuccessivo(): void {
-
     this.meseCorrente = new Date(
       this.meseCorrente.getFullYear(),
       this.meseCorrente.getMonth() + 1,
@@ -134,17 +131,12 @@ export class Calendario {
     this.creaCalendario();
   }
 
-  /**
-   * Azzera giorno e orario quando
-   * l'utente cambia mese.
-   */
   private azzeraSelezione(): void {
     this.giornoSelezionato = null;
     this.orarioSelezionato = null;
   }
 
   creaCalendario(): void {
-
     this.giorniMese = [];
 
     const anno =
@@ -153,7 +145,10 @@ export class Calendario {
     const mese =
       this.meseCorrente.getMonth();
 
-    // Primo giorno del mese
+    const oggi = new Date();
+
+    oggi.setHours(0, 0, 0, 0);
+
     let primoGiorno =
       new Date(
         anno,
@@ -161,24 +156,31 @@ export class Calendario {
         1
       ).getDay();
 
-    // Trasformiamo domenica da 0 a 7
+    /*
+     * JavaScript:
+     * domenica = 0
+     *
+     * Calendario:
+     * lunedì = prima colonna
+     */
     if (primoGiorno === 0) {
       primoGiorno = 7;
     }
 
-    // Celle vuote prima del primo giorno
     for (
-      let i = 1;
-      i < primoGiorno;
-      i++
+      let indice = 1;
+      indice < primoGiorno;
+      indice++
     ) {
       this.giorniMese.push({
-        numero: '',
-        disponibile: false
+        numero: null,
+        disponibile: false,
+        chiuso: false,
+        passato: false,
+        oggi: false
       });
     }
 
-    // Numero totale dei giorni del mese
     const totaleGiorni =
       new Date(
         anno,
@@ -191,32 +193,27 @@ export class Calendario {
       giorno <= totaleGiorni;
       giorno++
     ) {
+      const data = new Date(
+        anno,
+        mese,
+        giorno
+      );
 
-      const data =
-        new Date(
-          anno,
-          mese,
-          giorno
-        );
-
-      const oggi =
-        new Date();
-
-      // Azzeriamo gli orari per confrontare
-      // soltanto le date.
-      oggi.setHours(0, 0, 0, 0);
       data.setHours(0, 0, 0, 0);
 
-      const settimana =
+      const giornoSettimana =
         data.getDay();
 
       const chiuso =
         CALENDARIO_CONFIG
           .giorniChiusura
-          .includes(settimana);
+          .includes(giornoSettimana);
 
       const passato =
         data < oggi;
+
+      const giornoOggi =
+        data.getTime() === oggi.getTime();
 
       this.giorniMese.push({
         numero: giorno,
@@ -224,15 +221,17 @@ export class Calendario {
           !chiuso &&
           !passato,
         chiuso,
-        passato
+        passato,
+        oggi: giornoOggi
       });
     }
   }
 
-  selezionaGiorno(giorno: any): void {
-
+  selezionaGiorno(
+    giorno: GiornoCalendario
+  ): void {
     if (
-      giorno.numero === '' ||
+      giorno.numero === null ||
       giorno.chiuso ||
       giorno.passato ||
       !giorno.disponibile
@@ -243,8 +242,6 @@ export class Calendario {
     this.giornoSelezionato =
       giorno.numero;
 
-    // Cambiando giorno azzeriamo
-    // l'orario selezionato precedentemente.
     this.orarioSelezionato = null;
 
     const anno =
@@ -271,18 +268,14 @@ export class Calendario {
   }
 
   generaOrariDisponibili(): void {
-
     const orariGenerati: string[] = [];
 
     for (
       const fascia of
       CALENDARIO_CONFIG.fasceOrarie
     ) {
-      const orariFascia =
-        this.generaSlotFascia(fascia);
-
       orariGenerati.push(
-        ...orariFascia
+        ...this.generaSlotFascia(fascia)
       );
     }
 
@@ -293,7 +286,6 @@ export class Calendario {
   private generaSlotFascia(
     fascia: FasciaOraria
   ): string[] {
-
     const slot: string[] = [];
 
     let minutiCorrenti =
@@ -327,7 +319,6 @@ export class Calendario {
   private convertiOrarioInMinuti(
     orario: string
   ): number {
-
     const [ore, minuti] =
       orario
         .split(':')
@@ -339,7 +330,6 @@ export class Calendario {
   private convertiMinutiInOrario(
     minutiTotali: number
   ): string {
-
     const ore =
       Math.floor(
         minutiTotali / 60
